@@ -74,9 +74,6 @@ boxplot <- function(d, method = "t.test", jitter_size = 0.4, log_scale = FALSE) 
 #' @param db_path A file path for database file, such as my-db.duckdb
 #' @param query_str A query string
 #' @return A data frame
-#' @importFrom DBI dbConnect
-#' @importFrom DBI dbExecute
-#' @importFrom DBI dbGetQuery
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarise
 #' @importFrom duckdb duckdb

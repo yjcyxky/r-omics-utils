@@ -2,24 +2,28 @@
 #'
 #' Annotate ensembl id
 #'
-#' @param geneids ensembl ids
+#' @param geneids Ensembl ids
+#' @param species On support "Homo.sapiens" or "Mus.musculus"
 #' @return A data frame
-#' @import AnnotationDbi
-#' @import Mus.musculus
 #' @export
-annot <- function(geneids) {
-  return(AnnotationDbi::select(Mus.musculus, keys=geneids, columns=c("ENSEMBL", "SYMBOL", "ENTREZID"), keytype="ENSEMBL"))
+annot <- function(geneids, species="Homo.sapiens") {
+  if (species == "Mus.musculus") {
+    return(AnnotationDbi::select(Mus.musculus, keys=geneids, columns=c("ENSEMBL", "SYMBOL", "ENTREZID"), keytype="ENSEMBL"))
+  } else {
+    return(AnnotationDbi::select(Homo.sapiens, keys=geneids, columns=c("ENSEMBL", "SYMBOL", "ENTREZID"), keytype="ENSEMBL"))
+  }
 }
 
 #' Annotate Gene ID
 #'
 #' Annotate ensembl id
 #'
-#' @param geneids ensembl ids
+#' @param geneids Ensembl ids
+#' @param species On support "Homo.sapiens" or "Mus.musculus"
 #' @return A data frame
 #' @export
-annot_align <- function(geneids) {
-  genes <- annot(geneids)
+annot_align <- function(geneids, species="Homo.sapiens") {
+  genes <- annot(geneids, species)
   duplicated_genes <- genes$ENSEMBL[duplicated(genes$ENSEMBL)]
   uniq_genes <- genes[!duplicated(genes$ENSEMBL),]
   for (id in duplicated_genes) {

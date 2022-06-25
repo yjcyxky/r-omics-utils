@@ -1,1 +1,1 @@
-# R Omics Utilities
+# Utilities for Omics Data

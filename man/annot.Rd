@@ -4,10 +4,12 @@
 \alias{annot}
 \title{Annotate Gene ID}
 \usage{
-annot(geneids)
+annot(geneids, species = "Homo.sapiens")
 }
 \arguments{
-\item{geneids}{ensembl ids}
+\item{geneids}{Ensembl ids}
+
+\item{species}{On support "Homo.sapiens" or "Mus.musculus"}
 }
 \value{
 A data frame
