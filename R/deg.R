@@ -13,22 +13,22 @@
 #' @importFrom limma topTable
 #' @importFrom data.table as.data.table
 #' @export
-DEGanalysis <- function(exprMat, group){
+DEGanalysis <- function(exprMat, group) {
   dge <- DGEList(counts = exprMat)
   design <- model.matrix(~group)
 
-  keep <- filterByExpr(dge, design, design,min.count = 0)
-  dge <- dge[keep,,keep.lib.sizes=FALSE]
+  keep <- filterByExpr(dge, design, design, min.count = 0)
+  dge <- dge[keep, , keep.lib.sizes = FALSE]
   dge <- calcNormFactors(dge)
 
-  v <- voom(dge, design, plot=F)
+  v <- voom(dge, design, plot = F)
   fit <- lmFit(v, design)
 
   fit <- eBayes(fit)
-  result <- topTable(fit, coef=ncol(design), sort.by = 'logFC', number = Inf)
-  result$gene = rownames(result)
-  result$groupA =  levels(group)[1]
-  result$groupB =  levels(group)[2]
+  result <- topTable(fit, coef = ncol(design), sort.by = "logFC", number = Inf)
+  result$gene <- rownames(result)
+  result$groupA <- levels(group)[1]
+  result$groupB <- levels(group)[2]
   return(as.data.table(result))
 }
 
