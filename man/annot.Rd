@@ -9,7 +9,7 @@ annot(geneids, species = "Homo.sapiens")
 \arguments{
 \item{geneids}{Ensembl ids}
 
-\item{species}{On support "Homo.sapiens" or "Mus.musculus"}
+\item{species}{Only support "Homo.sapiens" or "Mus.musculus"}
 }
 \value{
 A data frame

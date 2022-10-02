@@ -3,7 +3,7 @@
 #' Annotate ensembl id
 #'
 #' @param geneids Ensembl ids
-#' @param species On support "Homo.sapiens" or "Mus.musculus"
+#' @param species Only support "Homo.sapiens" or "Mus.musculus"
 #' @return A data frame
 #' @export
 annot <- function(geneids, species = "Homo.sapiens") {

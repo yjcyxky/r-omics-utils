@@ -4,7 +4,7 @@
 \alias{DEGanalysis}
 \title{This function is for identify DEG from a given matrix}
 \usage{
-DEGanalysis(exprMat, group)
+DEGanalysis(exprMat, group, min.count = 1)
 }
 \arguments{
 \item{group}{should be a factor whose length is identical to the number of the columns in expr_mat,
