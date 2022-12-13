@@ -1,12 +1,13 @@
 # More details on https://cloud.tencent.com/developer/article/1669450
 
-#' Convert counts to TPM
+#' Convert counts to FPKM
 #'
 #' @param counts A data frame which rownames are ensembl id and colnames are sample name.
-#' @return a data frame which contains TPM values.
+#' @return a data frame which contains FPKM values.
 #' @export
-counts2tpm <- function(counts) {
-
+counts2fpkm <- function(counts) {
+    n <- sum(counts)
+    exp(log(counts) + log(1e9) - log(length) - log(n))
 }
 
 #' Convert FPKM to TPM

@@ -8,7 +8,7 @@ Description: Visualization, analyzis tools for multi-omics data (such as RNA-Seq
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 Imports:
     ggplot2 (>= 3.3.6),
     ggpubr (>= 0.4.0),

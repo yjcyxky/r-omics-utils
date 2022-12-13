@@ -4,12 +4,14 @@
 \alias{annot}
 \title{Annotate Gene ID}
 \usage{
-annot(geneids, species = "Homo.sapiens")
+annot(geneids, species = "Homo.sapiens", keytype = "ENSEMBL")
 }
 \arguments{
 \item{geneids}{Ensembl ids}
 
 \item{species}{Only support "Homo.sapiens" or "Mus.musculus"}
+
+\item{keytype}{Only support "ENSEMBL", "ENTREZID" or "SYMBOL"}
 }
 \value{
 A data frame

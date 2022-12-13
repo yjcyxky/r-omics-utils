@@ -4,12 +4,14 @@
 \alias{annot_align}
 \title{Annotate Gene ID}
 \usage{
-annot_align(geneids, species = "Homo.sapiens")
+annot_align(geneids, species = "Homo.sapiens", keytype = "ENSEMBL")
 }
 \arguments{
 \item{geneids}{Ensembl ids}
 
 \item{species}{On support "Homo.sapiens" or "Mus.musculus"}
+
+\item{keytype}{Only support "ENSEMBL", "ENTREZID" or "SYMBOL"}
 }
 \value{
 A data frame
