@@ -10,6 +10,8 @@ DEGanalysis(exprMat, group, min.count = 1)
 \item{group}{should be a factor whose length is identical to the number of the columns in expr_mat,
 describing the group information of each column in expr_mat}
 
+\item{min.count}{numeric. Minimum count required for at least some samples.}
+
 \item{expr_mat}{should a matrix in stead of a data frame, with column for samples and rows for signature(gene/protein/metabolics...)
 For transcriptome, a matrix after log transformation is recommended.}
 }

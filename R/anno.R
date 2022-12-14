@@ -25,7 +25,7 @@ annot <- function(geneids, species = "Homo.sapiens", keytype = "ENSEMBL") {
 #' @return A data frame
 #' @export
 annot_align <- function(geneids, species = "Homo.sapiens", keytype = "ENSEMBL") {
-  genes <- annot(geneids, species)
+  genes <- annot(geneids, species, keytype=keytype)
 
   if (!(keytype %in% c("ENSEMBL", "ENTREZID", "SYMBOL"))) {
     stop("Keytype is invalid.")

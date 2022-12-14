@@ -12,16 +12,23 @@ RoxygenNote: 7.2.3
 Imports:
     ggplot2 (>= 3.3.6),
     ggpubr (>= 0.4.0),
-    limma (>= 3.52.0),
-    edgeR (>= 3.38.0),
     data.table (>= 1.14.2),
-    duckdb (>= 0.4.0),
     stringr (>= 1.4.0),
     dplyr (>= 1.0.9),
+    purrr (>= 0.3.5),
+    stringr (>= 1.5.0),
 biocViews:
+    limma (>= 3.52.0),
+    edgeR (>= 3.38.0),
+    org.Hs.eg.db (>= 3.15.0),
+    org.Mm.eg.db (>= 3.15.0),
     AnnotationDbi (>= 1.58.0),
     Mus.musculus (>= 1.3.1),
-    Homo.sapiens (>= 1.3.1)
+    Homo.sapiens (>= 1.3.1),
+    DOSE (>= 3.22.1),
+    clusterProfiler (>= 4.4.4),
+    pathview (>= 1.36.1),
+    topGO (>= 2.48.0),
     DBI (>= 1.1.3)
 Suggests: 
     renv,
