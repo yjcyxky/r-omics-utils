@@ -38,31 +38,6 @@ DEGanalysis <- function(exprMat, group, min.count = 1) {
 # names <- colnames(d)[2:dim(d)[2]]
 # group <- rep(c("A", "B"), c(6, 6))
 
-
-#' Make groups based on metadata table
-#'
-#' @param metadata a data frame contains several columns for metadata.
-#' @param group.column a field name.
-#' @return a factor
-#' @export
-#' @examples
-#' # Make groups
-#' m <- data.frame(
-#'   group = rep(c("FA", "PM"), 6),
-#'   month = rep(5, 12), gender = rep("male", 12),
-#'   organ = rep(c("gut", "lng", "lvr"), 4)
-#' )
-#' make_groups(m, group_column = "group", levels = c("PM", "FA"))
-make_groups <- function(metadata, group_column = "group", levels = c("PM", "FA")) {
-  cols <- colnames(metadata)
-  if (group_column %in% cols && all(levels %in% cols)) {
-    groups <- metadata[group_column]
-    return(factor(groups, levels = levels))
-  } else {
-    stop(paste0("Not such group.column(", group_column, ") or group values(", levels, ")."))
-  }
-}
-
 #' Compute logFC value.
 #'
 #' @param group1 a vector which contains several values (default is log transformed).
@@ -187,6 +162,33 @@ deg_stat <- function(expr_mat, groups, pCutoff = 0.05, log2FCCutoff = 1,
   return(results)
 }
 
+#' Compute the DEGs
+#'
+#' @param expr_mat a data frame which columns are genes, rows are samples. the values are counts, tpm or fpkm.
+#' @param groups a factor which contains group information.
+#' @param pCutoff a cutoff for p.value.
+#' @param log2FCCutoff a cutoff for log2FC.
+#' @param method one of the t.test, wilcox.test, limma.
+#' @param min.count numeric. Minimum count required for at least some samples (when counts).
+#' @importFrom purrr map_df
+#' @return a data frame which contains gene, P.Value, statistic, logFC and AveExpr columns.
+#' @export
+analyze_degs <- function(expr_mat, groups, pCutoff = 0.05, log2FCCutoff = 1,
+                         method = "t.test", suffix = "_ttest", folder = ".", min.count = 0, padjust_method = "hochberg", species = "Mus.musculus") {
+  # ------------------------------------------------------------------
+  g <- deg_stat(expr_mat, groups, pCutoff = pCutoff, method = method, min.count = min.count)
+  annotated_genes <- anno_genes(g$gene, species = species)
+  g <- cbind(g, annotated_genes)
+
+  g$P.adj <- adjust_p(g$P.Value, method = padjust_method)
+
+  # Remove NA
+  d <- g[which(!is.na(g$P.Value)), ]
+  results <- d[d$P.Value <= pCutoff & (d$logFC >= log2FCCutoff | d$logFC <= -log2FCCutoff), ]
+
+  return(list(all=g, degs=results))
+}
+
 #' Given a set of p-values, returns p-values adjusted using one of several methods.
 #'
 #' @param pvalues numeric vector of p-values (possibly with NAs). Any other R object is coerced by as.numeric.
@@ -203,7 +205,7 @@ adjust_p <- function(pvalues, method = "bonferroni") {
 #' @return database name, ENSEMBL, ENTREZID or SYMBOL.
 #' @export
 which_database <- function(genes) {
-  matched <- grep("^EN.*", genes)
+  matched <- grep("^EN.*$", genes)
   count <- length(genes)
   if (length(matched) != 0) {
     if (length(matched) == count) {
@@ -213,7 +215,7 @@ which_database <- function(genes) {
     }
   }
 
-  matched <- grep("^[0-9]+", genes)
+  matched <- grep("^[0-9]+$", genes)
   if (length(matched) != 0) {
     if (length(matched) == count) {
       return("ENTREZID")
@@ -236,11 +238,10 @@ which_database <- function(genes) {
 #' @export
 anno_genes <- function(genes, species = "Mus.musculus") {
   database <- which_database(genes)
-  results <- data.frame()
   annotated_genes <- annot_align(genes, species, database)
-  results$ensembl_id <- annotated_genes$ENSEMBL
-  results$entrez_id <- annotated_genes$ENTREZID
-  results$gene_symbol <- annotated_genes$SYMBOL
+  results <- data.frame(ensembl_id = annotated_genes$ENSEMBL,
+                        entrez_id = annotated_genes$ENTREZID,
+                        gene_symbol = annotated_genes$SYMBOL)
   results
 }
 
